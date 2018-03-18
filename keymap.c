@@ -100,7 +100,7 @@ static PF cX4cF[] = {
 	ctrlg			/* ^g */
 };
 static PF cX4b[] = {
-	poptobuffer,		/* b */
+	gotoeob,		/* b */
 	rescan,			/* c */
 	rescan,			/* d */
 	rescan,			/* e */
@@ -142,7 +142,7 @@ static PF cXcL[] = {
 	upperregion,		/* ^U */
 	filevisitalt,		/* ^V */
 	filewrite,		/* ^W */
-	swapmark		/* ^X */
+	swapmark,		/* ^X */
 };
 
 static PF cXlp[] = {
@@ -167,7 +167,7 @@ static PF cXcar[] = {
 	rescan,			/* _ */
 	next_error,		/* ` */
 	rescan,			/* a */
-	usebuffer,		/* b */
+	gotoeob,		/* b */
 	rescan,			/* c */
 	rescan,			/* d */
 	executemacro,		/* e */
@@ -180,12 +180,12 @@ static PF cXcar[] = {
 	rescan,			/* l */
 	rescan,			/* m */
 	nextwind,		/* n */
-	nextwind,		/* o */
+	usebuffer,		/* o */
 	prevwind,		/* p */
 	rescan,			/* q */
 	rescan,			/* r */
 	savebuffers,		/* s */
-	rescan,			/* t */
+	gotobob,		/* t */
 	undo			/* u */
 };
 
