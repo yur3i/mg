@@ -39,7 +39,6 @@ static struct funmap functnames[] = {
 	{backword, "backward-word",},
 	{gotobob, "beginning-of-buffer",},
 	{gotobol, "beginning-of-line",},
-	{showmatch, "blink-and-insert",},
 	{bsmap, "bsmap-mode",},
 	{NULL, "c-x 4 prefix",},
 	{NULL, "c-x prefix",},

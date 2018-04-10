@@ -395,9 +395,6 @@ static PF fund_del[] = {
 	backdel			/* DEL */
 };
 
-static PF fund_cb[] = {
-	showmatch		/* ) ] }  */
-};
 
 static struct KEYMAPE (8) fundmap = {
 	8,
@@ -417,13 +414,6 @@ static struct KEYMAPE (8) fundmap = {
 			CCHR('['), CCHR('_'), fund_esc, (KEYMAP *) & metamap
 		},
 		{
-			')', ')', fund_cb, NULL
-		},
-		{
-			']', ']', fund_cb, NULL
-		},
-		{
-			'}', '}', fund_cb, NULL
 		},
 		{
 			CCHR('?'), CCHR('?'), fund_del, NULL

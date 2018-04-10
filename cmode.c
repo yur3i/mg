@@ -39,10 +39,6 @@ int cc_comment(int, int);
 
 /* Keymaps */
 
-static PF cmode_brace[] = {
-	cc_brace,	/* } */
-};
-
 static PF cmode_cCP[] = {
 	compile,		/* C-c P */
 };
@@ -82,7 +78,6 @@ static struct KEYMAPE (3) cmodemap = {
 	{
 		{ CCHR('C'), CCHR('M'), cmode_cc, (KEYMAP *) &cmode_cmap },
 		{ ':', ':', cmode_spec, NULL },
-		{ '}', '}', cmode_brace, NULL }
 	}
 };
 
@@ -93,7 +88,6 @@ cmode_init(void)
 {
 	funmap_add(cmode, "c-mode");
 	funmap_add(cc_char, "c-handle-special-char");
-	funmap_add(cc_brace, "c-handle-special-brace");
 	funmap_add(cc_tab, "c-tab-or-indent");
 	funmap_add(cc_indent, "c-indent");
 	funmap_add(cc_lfindent, "c-indent-and-newline");
@@ -121,20 +115,6 @@ cc_char(int f, int n)
 		return (FALSE);
 	return (cc_indent(FFRAND, n));
 }
-
-/*
- * Handle special C character - selfinsert then indent.
- */
-int
-cc_brace(int f, int n)
-{
-	if (n < 0)
-		return (FALSE);
-	if (showmatch(FFRAND, 1) == FALSE)
-		return (FALSE);
-	return (cc_indent(FFRAND, n));
-}
-
 
 /*
  * If we are in the whitespace at the beginning of the line,

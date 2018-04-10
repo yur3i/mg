@@ -659,9 +659,6 @@ int		 spawncli(int, int);
 void		 ttykeymapinit(void);
 void		 ttykeymaptidy(void);
 
-/* match.c X */
-int		 showmatch(int, int);
-
 /* version.c X */
 int		 showversion(int, int);
 
@@ -713,7 +710,6 @@ int		 add_autoexec(const char *, const char *);
 
 /* cmode.c X */
 int		 cmode(int, int);
-int		 cc_brace(int, int);
 int		 cc_char(int, int);
 int		 cc_tab(int, int);
 int		 cc_indent(int, int);
