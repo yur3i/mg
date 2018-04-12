@@ -209,6 +209,8 @@ done:
 		return (ldelete(chunk, KFORW));
 	return (TRUE);
 }
+
+/* delete a line without overwriting the kill buffer */
 int
 delline(int f, int n)
 {
