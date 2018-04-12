@@ -14,3 +14,4 @@ This is my fork of the OpenBSD `mg` text editor.
 
 - Redesigned Modeline to be much cleaner
 
+![alt text](./screenshot.png)
