@@ -836,7 +836,7 @@ modeline(struct mgwin *wp, int modelinecolor)
 	if ((linenos || colnos) && len < sizeof(sl) && len != -1)
 		n += vtputs(sl);
 
-	while (n < ncol + 3) {			/* Pad out.		 */
+	while (n < ncol + 4) {			/* Pad out.		 */
 		vtputc(' ');
 		++n;
 	}
