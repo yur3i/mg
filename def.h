@@ -408,6 +408,7 @@ int		 linsert(int, int);
 int		 lnewline_at(struct line *, int);
 int		 lnewline(void);
 int		 ldelete(RSIZE, int);
+int		 ldelete2(RSIZE, int);
 int		 ldelnewline(void);
 int		 lreplace(RSIZE, char *);
 char *		 linetostr(const struct line *);
@@ -419,6 +420,7 @@ int		 kinsert(int, int);
 int		 kremove(int);
 int		 kchunk(char *, RSIZE, int);
 int		 killline(int, int);
+int		 delline(int, int);
 int		 yank(int, int);
 
 /* window.c X */

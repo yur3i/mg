@@ -277,7 +277,7 @@ static PF metal[] = {
 	lowerword,		/* l */
 	backtoindent,		/* m */
 	rescan,			/* n */
-	rescan,			/* o */
+	delline,		/* o */
 	rescan,			/* p */
 	fillpara,		/* q */
 	backsearch,		/* r */

@@ -335,6 +335,79 @@ lnewline(void)
  * into the kill buffer.
  */
 int
+ldelete2(RSIZE n, int kflag)
+{
+	struct line	*dotp;
+	RSIZE		 chunk;
+	struct mgwin	*wp;
+	int		 doto;
+	char		*cp1, *cp2;
+	size_t		 len;
+	char		*sv = NULL;
+	int		 end;
+	int		 s;
+	int		 rval = FALSE;
+
+	if ((s = checkdirty(curbp)) != TRUE)
+		return (s);
+	if (curbp->b_flag & BFREADONLY) {
+		dobeep();
+		ewprintf("Buffer is read only");
+		goto out;
+	}
+	len = n;
+	if ((sv = calloc(1, len + 1)) == NULL)
+		goto out;
+	end = 0;
+
+	undo_add_delete(curwp->w_dotp, curwp->w_doto, n, (kflag & KREG));
+
+	while (n != 0) {
+		dotp = curwp->w_dotp;
+		doto = curwp->w_doto;
+		/* Hit the end of the buffer */
+		if (dotp == curbp->b_headp)
+			goto out;
+		/* Size of the chunk */
+		chunk = dotp->l_used - doto;
+
+		if (chunk > n)
+			chunk = n;
+		/* End of line, merge */
+		if (chunk == 0) {
+			if (dotp == blastlp(curbp))
+				goto out;
+			lchange(WFFULL);
+			if (ldelnewline() == FALSE)
+				goto out;
+			end = strlcat(sv, "\n", len + 1);
+			--n;
+			continue;
+		}
+		lchange(WFEDIT);
+		/* Scrunch text */
+		cp1 = &dotp->l_text[doto];
+		memcpy(&sv[end], cp1, chunk);
+		end += chunk;
+		sv[end] = '\0';
+		for (cp2 = cp1 + chunk; cp2 < &dotp->l_text[dotp->l_used];
+		    cp2++)
+			*cp1++ = *cp2;
+		dotp->l_used -= (int)chunk;
+		for (wp = wheadp; wp != NULL; wp = wp->w_wndp) {
+			if (wp->w_dotp == dotp && wp->w_doto >= doto) {
+				wp->w_doto -= chunk;
+				if (wp->w_doto < doto)
+					wp->w_doto = doto;
+			}
+		}
+		n -= chunk;
+	}
+out:
+	free(sv);
+	return (rval);
+}
+
 ldelete(RSIZE n, int kflag)
 {
 	struct line	*dotp;
@@ -410,12 +483,11 @@ ldelete(RSIZE n, int kflag)
 	}
 	if (kchunk(sv, (RSIZE)len, kflag) != TRUE)
 		goto out;
-	rval = TRUE;
+	rval = FALSE;
 out:
 	free(sv);
 	return (rval);
 }
-
 /*
  * Delete a newline and join the current line with the next line. If the next
  * line is the magic header line always return TRUE; merging the last line

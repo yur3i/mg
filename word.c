@@ -412,10 +412,6 @@ delfword(int f, int n)
 	if (n < 0)
 		return (FALSE);
 
-	/* purge kill buffer */
-	if ((lastflag & CFKILL) == 0)
-		kdelete();
-
 	thisflag |= CFKILL;
 	dotp = curwp->w_dotp;
 	doto = curwp->w_doto;
@@ -438,7 +434,7 @@ delfword(int f, int n)
 out:
 	curwp->w_dotp = dotp;
 	curwp->w_doto = doto;
-	return (ldelete(size, KFORW));
+	return (ldelete2(size, KNONE));
 }
 
 /*
@@ -468,9 +464,6 @@ delbword(int f, int n)
 	if (n < 0)
 		return (FALSE);
 
-	/* purge kill buffer */
-	if ((lastflag & CFKILL) == 0)
-		kdelete();
 	thisflag |= CFKILL;
 	if (backchar(FFRAND, 1) == FALSE)
 		/* hit buffer start */
@@ -498,7 +491,7 @@ delbword(int f, int n)
 	/* undo assumed delete */
 	--size;
 out:
-	return (ldelete(size, KBACK));
+	return (ldelete2(size, KBACK));
 }
 
 /*
