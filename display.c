@@ -807,18 +807,16 @@ modeline(struct mgwin *wp, int modelinecolor)
 	vscreen[n]->v_flag |= (VFCHG | VFHBAD);	/* Recompute, display.	 */
 	vtmove(n, 0);				/* Seek to right line.	 */
 	bp = wp->w_bufp;
+	n = 5;
 	if ((bp->b_flag & BFREADONLY) != 0) {
-		vtputc('%');
+		n += vtputs("(R) ");
 		if ((bp->b_flag & BFCHG) != 0)
 			vtputc('*');
-		else
-			vtputc('%');
 	} else if ((bp->b_flag & BFCHG) != 0) {	/* "*" if changed.	 */
 		vtputc('!');
 	} else {
 		vtputc(' ');
 	}
-	n = 5;
 	if (bp->b_bname[0] != '\0')
 		n += vtputs(&(bp->b_bname[0]));
 	while (n < ncol - 4) {			/* Pad out with blanks.	 */
