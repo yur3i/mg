@@ -807,6 +807,8 @@ modeline(struct mgwin *wp, int modelinecolor)
 	vscreen[n]->v_flag |= (VFCHG | VFHBAD);	/* Recompute, display.	 */
 	vtmove(n, 0);				/* Seek to right line.	 */
 	bp = wp->w_bufp;
+	vtputc('-');
+	vtputc('-');
 	if ((bp->b_flag & BFREADONLY) != 0) {
 		vtputc('%');
 		if ((bp->b_flag & BFCHG) != 0)
@@ -814,29 +816,52 @@ modeline(struct mgwin *wp, int modelinecolor)
 		else
 			vtputc('%');
 	} else if ((bp->b_flag & BFCHG) != 0) {	/* "*" if changed.	 */
-		vtputc('!');
+		vtputc('*');
+		vtputc('*');
 	} else {
-		vtputc(' ');
+		vtputc('-');
+		vtputc('-');
 	}
+	vtputc('-');
 	n = 5;
 	n += vtputs("Mg: ");
 	if (bp->b_bname[0] != '\0')
 		n += vtputs(&(bp->b_bname[0]));
-	while (n < ncol) {			/* Pad out with blanks.	 */
+	while (n < 42) {			/* Pad out with blanks.	 */
 		vtputc(' ');
 		++n;
 	}
+	vtputc('(');
+	++n;
+	for (md = 0; ; ) {
+		n += vtputs(bp->b_modes[md]->p_name);
+		if (++md > bp->b_nmodes)
+			break;
+		vtputc('-');
+		++n;
+	}
+	/* XXX These should eventually move to a real mode */
+	if (macrodef == TRUE)
+		n += vtputs("-def");
+	if (globalwd == TRUE)
+		n += vtputs("-gwd");
+	vtputc(')');
+	++n;
 
 	if (linenos && colnos)
-		len = snprintf(sl, sizeof(sl), "L%dC%d", wp->w_dotline,
+		len = snprintf(sl, sizeof(sl), "--L%d--C%d", wp->w_dotline,
 		    getcolpos(wp));
 	else if (linenos)
-		len = snprintf(sl, sizeof(sl), "L%d", wp->w_dotline);
+		len = snprintf(sl, sizeof(sl), "--L%d", wp->w_dotline);
 	else if (colnos)
-		len = snprintf(sl, sizeof(sl), "C%d", getcolpos(wp));
+		len = snprintf(sl, sizeof(sl), "--C%d", getcolpos(wp));
 	if ((linenos || colnos) && len < sizeof(sl) && len != -1)
 		n += vtputs(sl);
 
+	while (n < ncol) {			/* Pad out.		 */
+		vtputc('-');
+		++n;
+	}
 }
 
 /*
