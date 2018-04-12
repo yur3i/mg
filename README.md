@@ -12,3 +12,5 @@ This is my fork of the OpenBSD `mg` text editor.
 
 - `M-d` and `M-<backspace>` no longer over write the kill ring
 
+- Redesigned Modeline to be much cleaner
+
