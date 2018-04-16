@@ -11,7 +11,6 @@
 #include "def.h"
 #include "funmap.h"
 #include "kbd.h"
-
 /*
  * If the function is NULL, it must be listed with the
  * same name in the map_table.

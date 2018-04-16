@@ -121,7 +121,7 @@ static struct KEYMAPE (2) cX4map = {
 };
 
 static PF cXcB[] = {
-	listbuffers,		/* ^B */
+	usebuffer,		/* ^B */
 	quit,			/* ^C */
 	rescan,			/* ^D */
 	rescan,			/* ^E */
@@ -180,7 +180,7 @@ static PF cXcar[] = {
 	rescan,			/* l */
 	rescan,			/* m */
 	nextwind,		/* n */
-	usebuffer,		/* o */
+	nextwind,		/* o */
 	prevwind,		/* p */
 	rescan,			/* q */
 	rescan,			/* r */

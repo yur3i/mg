@@ -13,10 +13,10 @@ DPADD+=	${LIBCURSES} ${LIBUTIL}
 CFLAGS+=-Wall -DREGEX
 
 SRCS=	autoexec.c basic.c bell.c buffer.c cinfo.c dir.c display.c \
-	echo.c extend.c file.c fileio.c funmap.c help.c kbd.c keymap.c \
+	echo.c extend.c file.c fileio.c funmap.c git.c help.c kbd.c keymap.c \
 	line.c macro.c main.c modes.c paragraph.c \
 	re_search.c region.c search.c spawn.c tty.c ttyio.c ttykbd.c \
-	undo.c util.c version.c window.c word.c yank.c
+	undo.c util.c version.c window.c word.c yank.c 
 
 #
 # More or less standalone extensions.
