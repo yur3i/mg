@@ -322,4 +322,3 @@ yank(int f, int n)
 	undo_boundary_enable(FFRAND, 1);
 	return (TRUE);
 }
-

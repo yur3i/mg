@@ -819,6 +819,7 @@ modeline(struct mgwin *wp, int modelinecolor)
 	}
 	if (bp->b_bname[0] != '\0')
 		n += vtputs(&(bp->b_bname[0]));
+
 	while (n < ncol - 4) {			/* Pad out with blanks.	 */
 		vtputc(' ');
 		++n;
