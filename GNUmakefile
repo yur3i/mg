@@ -85,4 +85,4 @@ uninstall:
 	rm -rf ${DESTDIR}${DOCDIR}
 
 clean:
-	rm -f ${PROG} ${OBJS}
+	rm -f ${PROG} ${OBJS} *~
