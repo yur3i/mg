@@ -140,8 +140,6 @@ main(int argc, char **argv)
 	if (init_fcn)
 		init_fcn(FFOTHARG, 1);
 
-	if (nobackups)
-		makebkfile(FFARG, 0);
 
 	for (nfiles = 0, i = 0; i < argc; i++) {
 		if (argv[i][0] == '+' && strlen(argv[i]) >= 2) {

@@ -1,4 +1,4 @@
-/*	$OpenBSD: fileio.c,v 1.104 2017/05/30 07:05:22 florian Exp $	*/
+;;/*	$OpenBSD: fileio.c,v 1.104 2017/05/30 07:05:22 florian Exp $	*/
 
 /* This file is in the public domain. */
 
@@ -195,94 +195,7 @@ ffgetline(FILE *ffp, char *buf, int nbuf, int *nbytes)
 	return (c == EOF ? FIOEOF : FIOSUC);
 }
 
-/*
- * Make a backup copy of "fname".  On Unix the backup has the same
- * name as the original file, with a "~" on the end; this seems to
- * be newest of the new-speak. The error handling is all in "file.c".
- * We do a copy instead of a rename since otherwise another process
- * with an open fd will get the backup, not the new file.  This is
- * a problem when using mg with things like crontab and vipw.
- */
-int
-fbackupfile(const char *fn)
-{
-	struct stat	 sb;
-	struct timespec	 new_times[2];
-	int		 from, to, serrno;
-	ssize_t		 nread;
-	char		 buf[BUFSIZ];
-	char		*nname, *tname, *bkpth;
 
-	if (stat(fn, &sb) == -1) {
-		dobeep();
-		ewprintf("Can't stat %s : %s", fn, strerror(errno));
-		return (FALSE);
-	}
-
-	if ((bkpth = bkuplocation(fn)) == NULL)
-		return (FALSE);
-
-	if (asprintf(&nname, "%s~", bkpth) == -1) {
-		dobeep();
-		ewprintf("Can't allocate backup file name : %s", strerror(errno));
-		free(bkpth);
-		return (ABORT);
-	}
-	if (asprintf(&tname, "%s.XXXXXXXXXX", bkpth) == -1) {
-		dobeep();
-		ewprintf("Can't allocate temp file name : %s", strerror(errno));
-		free(bkpth);
-		free(nname);
-		return (ABORT);
-	}
-	free(bkpth);
-
-	if ((from = open(fn, O_RDONLY)) == -1) {
-		free(nname);
-		free(tname);
-		return (FALSE);
-	}
-	to = mkstemp(tname);
-	if (to == -1) {
-		serrno = errno;
-		close(from);
-		free(nname);
-		free(tname);
-		errno = serrno;
-		return (FALSE);
-	}
-	while ((nread = read(from, buf, sizeof(buf))) > 0) {
-		if (write(to, buf, (size_t)nread) != nread) {
-			nread = -1;
-			break;
-		}
-	}
-	serrno = errno;
-	(void) fchmod(to, (sb.st_mode & 0777));
-
-	/* copy the mtime to the backupfile */
-	new_times[0] = sb.st_atim;
-	new_times[1] = sb.st_mtim;
-	futimens(to, new_times);
-
-	close(from);
-	close(to);
-	if (nread == -1) {
-		if (unlink(tname) == -1)
-			ewprintf("Can't unlink temp : %s", strerror(errno));
-	} else {
-		if (rename(tname, nname) == -1) {
-			ewprintf("Can't rename temp : %s", strerror(errno));
-			(void) unlink(tname);
-			nread = -1;
-		}
-	}
-	free(nname);
-	free(tname);
-	errno = serrno;
-
-	return (nread == -1 ? FALSE : TRUE);
-}
 
 /*
  * Convert "fn" to a canonicalized absolute filename, replacing

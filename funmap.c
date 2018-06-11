@@ -128,7 +128,6 @@ static struct funmap functnames[] = {
 	{evalfile, "load",},
 	{localbind, "local-set-key",},
 	{localunbind, "local-unset-key",},
-	{makebkfile, "make-backup-files",},
 	{makedir, "make-directory",},
 	{markpara, "mark-paragraph",},
 	{markbuffer, "mark-whole-buffer",},

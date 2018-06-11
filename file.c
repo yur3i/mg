@@ -612,16 +612,7 @@ buffsave(struct buffer *bp)
 			return (s);
 	}
 	
-	if (makebackup && (bp->b_flag & BFBAK)) {
-		s = fbackupfile(bp->b_fname);
-		/* hard error */
-		if (s == ABORT)
-			return (FALSE);
-		/* softer error */
-		if (s == FALSE &&
-		    (s = eyesno("Backup error, save anyway")) != TRUE)
-			return (s);
-	}
+
 	if ((s = writeout(&ffp, bp, bp->b_fname)) == TRUE) {
 		(void)fupdstat(bp);
 		bp->b_flag &= ~(BFCHG | BFBAK);
@@ -632,32 +623,8 @@ buffsave(struct buffer *bp)
 	return (s);
 }
 
-/*
- * Since we don't have variables (we probably should) this is a command
- * processor for changing the value of the make backup flag.  If no argument
- * is given, sets makebackup to true, so backups are made.  If an argument is
- * given, no backup files are made when saving a new version of a file.
- */
-/* ARGSUSED */
-int
-makebkfile(int f, int n)
-{
-	if (f & FFARG)
-		makebackup = n > 0;
-	else
-		makebackup = !makebackup;
-	ewprintf("Backup files %sabled", makebackup ? "en" : "dis");
-	return (TRUE);
-}
 
-/*
- * NB: bp is passed to both ffwopen and ffclose because some
- * attribute information may need to be updated at open time
- * and others after the close.  This is OS-dependent.  Note
- * that the ff routines are assumed to be able to tell whether
- * the attribute information has been set up in this buffer
- * or not.
- */
+
 
 /*
  * This function performs the details of file writing; writing the file
