@@ -281,7 +281,7 @@ static PF metal[] = {
 	rescan,			/* p */
 	fillpara,		/* q */
 	backsearch,		/* r */
-	forwsearch,		/* s */
+	filesave,		/* s */
 	transposeword,		/* t */
 	upperword,		/* u */
 	backpage,		/* v */
