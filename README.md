@@ -1,5 +1,5 @@
 # Mg
-[[https://travis-cl.org/yur3i/mg.svg?branch=master
+[[https://travis-cl.org/yur3i/mg.svg?branch=master]]
 This is my fork of the OpenBSD `mg` text editor. It's mainly for personal use and its pretty complete but feel free to suggest anything or open any issues if you feel it is neccessary.
 
 ## Configuration
